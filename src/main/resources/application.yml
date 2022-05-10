@@ -9,6 +9,9 @@ spring:
       simple:
         acknowledge-mode: manual
         default-requeue-rejected: false
-
+# 发布确认回调开启 交换机
+    publisher-confirm-type: correlated
+# 消息回退开启
+    publisher-returns: true
 server:
   port: 8080

@@ -41,7 +41,9 @@ public class Consumer implements RabbitTemplate.ConfirmCallback,RabbitTemplate.R
         }
         if(!ack){
             log.info("Business消费者消费：{} 信息发生异常，产生死信",message);
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,false);
+//            channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,false);
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(),false);
+
         }else{
             log.info("Business消费者消费：{} 信息成功",msg);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
@@ -65,11 +67,11 @@ public class Consumer implements RabbitTemplate.ConfirmCallback,RabbitTemplate.R
 
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        System.out.println(correlationData.getReturned());
+        System.out.println("confirmCallBack");
     }
 
     @Override
     public void returnedMessage(ReturnedMessage returned) {
-
+        System.out.println("returnedMessage");
     }
 }
